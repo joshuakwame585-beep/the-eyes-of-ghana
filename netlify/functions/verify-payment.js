@@ -1,3 +1,5 @@
+const config = require("../../site-config.json");
+
 exports.handler = async (event) => {
   const secret = process.env.PAYSTACK_SECRET_KEY;
   const reference = event.queryStringParameters?.reference;
@@ -11,10 +13,11 @@ exports.handler = async (event) => {
     });
     const result = await response.json();
     const paid = response.ok && result.status && result.data?.status === "success"
-      && result.data?.currency === "GHS" && result.data?.amount === 2000;
+      && result.data?.currency === config.currency
+      && result.data?.amount === Number(config.priceGHS) * 100;
     return { statusCode: paid ? 200 : 402, headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ verified: Boolean(paid), message: paid
-        ? "Payment verified. Secure delivery is the next setup step."
+        ? "Payment verified. Please contact the publisher to receive your digital edition; automatic secure delivery has not yet been connected."
         : "Payment could not be verified for this order." }) };
   } catch {
     return { statusCode: 502, headers: { "Content-Type": "application/json" },

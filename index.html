@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
+  <script src="/site-config.js"></script>
 </head>
 <body>
   <header class="site-header">
@@ -67,11 +68,22 @@
       </div>
       <div class="price-card">
         <div class="price-top"><span>THE EYES OF GHANA</span><span class="edition">DIGITAL EDITION</span></div>
-        <div class="price">GH₵20<span>.00</span></div>
+        <div class="price" id="display-price">GH₵20<span>.00</span></div>
         <p>One-time purchase</p>
         <form id="checkout-form">
+          <label for="customer-name">Your full name</label>
+          <input id="customer-name" name="name" type="text" placeholder="Full name" autocomplete="name" required>
           <label for="email">Email address for delivery</label>
           <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+          <label for="phone">Mobile Money number</label>
+          <input id="phone" name="phone" type="tel" placeholder="e.g. 024 123 4567" autocomplete="tel" inputmode="tel" required>
+          <label for="network">Mobile Money network</label>
+          <select id="network" name="network" required>
+            <option value="">Choose your network</option>
+            <option value="MTN">MTN Mobile Money</option>
+            <option value="Telecel">Telecel Cash</option>
+            <option value="AT">AT Money</option>
+          </select>
           <button class="button button-gold full" type="submit">Continue to secure checkout <span>→</span></button>
           <p class="secure-note">Secure checkout powered by Paystack. Payments are not processed on this demo until the merchant test keys are configured.</p>
           <p id="checkout-message" class="checkout-message" role="status" aria-live="polite"></p>
@@ -83,7 +95,7 @@
       <div class="section-wrap publisher-inner"><div class="publisher-monogram">JK</div><div><div class="section-kicker light">PUBLISHED BY</div><h2>JK Media</h2><p>Stories, media and ideas that keep Ghana’s history in view.</p></div><div class="publisher-side">THE EYES OF GHANA<br><span>PART ONE</span></div></div>
     </section>
   </main>
-  <footer><a class="brand" href="/"><span class="brand-mark">JK</span><span>JK MEDIA</span></a><span>© <span id="year"></span> JK Media. All rights reserved.</span><a href="mailto:hello@jkmedia.example">Contact</a></footer>
+  <footer><a class="brand" href="/"><span class="brand-mark">JK</span><span>JK MEDIA</span></a><span>© <span id="year"></span> JK Media. All rights reserved.</span><a id="footer-contact" href="mailto:kwamejoshua703@gmail.com">Contact</a></footer>
   <script src="/script.js"></script>
 </body>
 </html>

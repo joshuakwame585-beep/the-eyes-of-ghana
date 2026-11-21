@@ -5,7 +5,12 @@ document.querySelector("#year").textContent = new Date().getFullYear();
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   message.textContent = "";
-  const email = document.querySelector("#email").value.trim();
+  const details = {
+    name: document.querySelector("#customer-name").value.trim(),
+    email: document.querySelector("#email").value.trim(),
+    phone: document.querySelector("#phone").value.trim(),
+    network: document.querySelector("#network").value
+  };
   const button = form.querySelector("button");
   button.disabled = true;
   button.textContent = "Connecting to secure checkout…";
@@ -13,7 +18,7 @@ form.addEventListener("submit", async (event) => {
     const response = await fetch("/.netlify/functions/initialize-payment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
+      body: JSON.stringify(details)
     });
     const data = await response.json();
     if (!response.ok || !data.authorization_url) {
