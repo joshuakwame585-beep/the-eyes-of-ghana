@@ -11,14 +11,16 @@ Edit only `site-config.json` to change the public store details:
 The website asks buyers for their full name, email, Ghana mobile number and Mobile Money network (MTN, Telecel or AT). The checkout function sends the buyer to Paystack's hosted Mobile Money checkout. Buyer details are attached as transaction metadata.
 
 ## Netlify deployment
-- Publish directory: `.`
+- Publish directory: `public` (the private PDF and function source remain outside the public folder)
 - Functions directory: `netlify/functions`
 - Add `PAYSTACK_SECRET_KEY` in Netlify environment variables (start with a Paystack TEST secret key).
 - Never put the secret key in this repository, `site-config.json`, or browser JavaScript.
 - Redeploy after setting or changing environment variables.
 
 ## Important: not ready for live sales yet
-This ZIP does not include the paid PDF or an automatic email/secure-download service. The success page verifies the Paystack transaction but explicitly tells the buyer to contact the publisher. Before advertising automatic delivery or accepting live sales, connect private PDF storage, expiring download links, an email delivery provider, a Paystack webhook with signature verification, and durable order records/idempotency. Keep the paid PDF outside the public website directory.
+The paid PDF is stored under `netlify/functions/private/` and is NOT in the public `public/` folder. Netlify bundles it only with the download function using `included_files`. After Paystack redirects the buyer to `success.html`, the site verifies the transaction server-side (success status, exact GHS amount, currency and product metadata), creates a 15-minute signed download token, and displays a download button. The download function validates the token and verifies the Paystack transaction again before returning the PDF as an attachment. No ebook email delivery is used.
+
+The download URL is temporary, but a customer can still share it during its 15-minute validity window. A purchaser can revisit the Paystack success page to obtain a fresh link while the payment reference remains valid. This version does not implement a webhook or a persistent order database; complete test-mode end-to-end checks before switching to live keys.
 
 Use Paystack test mode and complete end-to-end tests before switching to live keys. The hosted Paystack page controls the final Mobile Money authorization flow; the form collects the buyer's phone and network for the order record but does not itself charge the wallet.
 
