@@ -13,13 +13,13 @@ exports.handler = async (event) => {
 
   try {
     const { name, email, phone, network } = JSON.parse(event.body || "{}");
-    const cleanPhone = String(phone || "").replace(/[\\s()-]/g, "");
-    const ghPhone = /^(?:0\\d{9}|\\+233\\d{9})$/.test(cleanPhone);
+    const cleanPhone = String(phone || "").replace(/[\s()-]/g, "");
+    const ghPhone = /^(?:0\d{9}|\+233\d{9})$/.test(cleanPhone);
     if (!name || name.length < 2) {
       return { statusCode: 400, headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Enter your full name." }) };
     }
-    if (!email || !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return { statusCode: 400, headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ error: "Enter a valid email address." }) };
     }
